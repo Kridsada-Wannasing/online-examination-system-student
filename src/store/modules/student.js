@@ -23,18 +23,24 @@ export const mutations = {
 };
 
 export const actions = {
-  login({ commit }, credentials) {
-    return axios
-      .post("url/login", credentials)
-      .then((data) => commit("SET_STUDENT", data));
+  async login({ commit }, credentials) {
+    const data = await axios.post(
+      "http://localhost:8000/student/login",
+      credentials
+    );
+    commit("SET_STUDENT", data);
+    return data;
   },
   logout({ commit }) {
     commit("CLEAR_STUDENT");
   },
-  updateMe({ commit }, credentials) {
-    return axios
-      .patch("url/updateMe", credentials)
-      .then((data) => commit("SET_STUDENT", data));
+  async updateMe({ commit }, credentials) {
+    const data = await axios.patch(
+      "http://localhost:8000/student/updateMe",
+      credentials
+    );
+    commit("SET_STUDENT", data);
+    return data;
   },
 };
 
