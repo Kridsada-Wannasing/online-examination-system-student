@@ -9,3 +9,10 @@ export default {
   name: "App",
 };
 </script>
+
+<style>
+@import "./assets/font.scss";
+* {
+  font-family: sukhumvit;
+}
+</style>
