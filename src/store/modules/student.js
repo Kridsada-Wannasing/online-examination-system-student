@@ -24,12 +24,12 @@ export const mutations = {
 
 export const actions = {
   async login({ commit }, credentials) {
-    const data = await axios.post(
+    const res = await axios.post(
       "http://localhost:8000/student/login",
       credentials
     );
-    commit("SET_STUDENT", data);
-    return data;
+    await commit("SET_STUDENT", res.data);
+    return res;
   },
   logout({ commit }) {
     commit("CLEAR_STUDENT");
