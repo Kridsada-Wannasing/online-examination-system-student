@@ -15,19 +15,27 @@ export const mutations = {
 
 export const actions = {
   async getAllExaminations({ commit }) {
-    const response = await axios.get(
-      "http://localhost:8000/student/examination"
-    );
-    commit("SET_EXAMINATIONS", response.data);
-    return response;
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/student/examination"
+      );
+      commit("SET_EXAMINATIONS", response.data);
+      return;
+    } catch (error) {
+      return error;
+    }
   },
 
   async enterToExamination(payload) {
-    const response = await axios.post(
-      "http://localhost:8000/student/examination",
-      payload
-    );
-    return response.data.allowedExamination;
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/student/examination",
+        payload
+      );
+      return response.data.allowedExamination;
+    } catch (error) {
+      return error;
+    }
   },
 };
 
