@@ -1,5 +1,5 @@
 <template>
-  <v-card height="670" class="rounded-xl">
+  <v-card id="navigation" max-width="312" height="670" class="rounded-xl">
     <v-navigation-drawer class="d-flex justify-center">
       <v-list-item>
         <v-list-item-content>
@@ -9,13 +9,9 @@
         </v-list-item-content>
       </v-list-item>
       <v-list>
-        <v-list-item class="px-7" v-for="item in items" :key="item.title" link>
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
+        <v-list-item class="px-4" v-for="item in items" :key="item.title" link>
+          <v-icon class="px-4">{{ item.icon }}</v-icon>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -26,7 +22,7 @@
 import { navigationDrawerLists } from "@/mixins/navigationDrawerLists";
 
 export default {
-  name: "HelloWorld",
+  name: "navigation",
   mixins: [navigationDrawerLists],
   data: () => ({}),
 };

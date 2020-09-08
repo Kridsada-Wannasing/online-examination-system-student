@@ -3,20 +3,22 @@ import axios from "axios";
 export const namespaced = true;
 
 export const state = {
+  token: "",
   student: {},
 };
 
 export const mutations = {
-  SET_STUDENT(state, student) {
-    state.student = student;
-    localStorage.setItem("me", JSON.stringify(student));
-    axios.defaults.headers.common["Authorization"] = `Bearer ${student.token}`;
+  SET_TOKEN(state, token) {
+    state.token = token;
+    localStorage.setItem("token");
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   },
-  UPDATE_STUDENT(state, student) {
+  SET_STUDENT(state, student) {
     state.student = student;
     localStorage.setItem("me", JSON.stringify(student));
   },
   CLEAR_STUDENT() {
+    localStorage.removeItem("token");
     localStorage.removeItem("me");
     location.reload();
   },
@@ -24,12 +26,13 @@ export const mutations = {
 
 export const actions = {
   async login({ commit }, credentials) {
-    const res = await axios.post(
+    const response = await axios.post(
       "http://localhost:8000/student/login",
       credentials
     );
-    await commit("SET_STUDENT", res.data);
-    return res;
+    commit("SET_TOKEN", res.data.token);
+    commit("SET_STUDENT", res.data.student);
+    return response;
   },
   logout({ commit }) {
     commit("CLEAR_STUDENT");
@@ -45,7 +48,7 @@ export const actions = {
 };
 
 export const getters = {
-  loggedIn(state) {
-    return !!state.student;
+  getMe(state) {
+    return state.student;
   },
 };
