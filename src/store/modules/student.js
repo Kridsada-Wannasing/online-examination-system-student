@@ -10,7 +10,7 @@ export const state = {
 export const mutations = {
   SET_TOKEN(state, token) {
     state.token = token;
-    localStorage.setItem("token");
+    localStorage.setItem("token", token);
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   },
   SET_STUDENT(state, student) {
@@ -30,9 +30,8 @@ export const actions = {
       "http://localhost:8000/student/login",
       credentials
     );
-    commit("SET_TOKEN", res.data.token);
-    commit("SET_STUDENT", res.data.student);
-    return response;
+    commit("SET_TOKEN", response.data.token);
+    commit("SET_STUDENT", response.data.student);
   },
   logout({ commit }) {
     commit("CLEAR_STUDENT");

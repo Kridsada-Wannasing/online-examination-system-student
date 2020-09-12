@@ -85,8 +85,9 @@ export default {
         })
         .then((res) => {
           this.$router.push({ name: "Home" });
+          console.log(res);
         })
-        .catch((err) => alert(err));
+        .catch((err) => console.log(err));
     },
   },
 };

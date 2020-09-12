@@ -1,7 +1,20 @@
-<template> </template>
+<template>
+  <v-card id="examination" class="rounded-xl">
+    <v-container class="px-8">
+      <v-row>
+        <v-col>
+          ห้องสอบ
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col> </v-col>
+      </v-row>
+    </v-container>
+  </v-card>
+</template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   created() {
@@ -13,4 +26,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+#examination {
+  min-height: 49vh;
+}
+</style>
