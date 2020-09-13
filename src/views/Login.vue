@@ -83,10 +83,10 @@ export default {
           email: this.Email,
           password: this.Password,
         })
-        .then((res) => {
+        .then(() => {
           this.$router.push({ name: "Home" });
         })
-        .catch((err) => alert(err));
+        .catch((err) => console.log(err));
     },
   },
 };

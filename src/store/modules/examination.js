@@ -1,4 +1,6 @@
-import axios from "axios";
+import axios from "@/api/axios";
+
+const endpoint = "examination";
 
 export const namespaced = true;
 
@@ -14,29 +16,20 @@ export const mutations = {
 };
 
 export const actions = {
-  async getAllExaminations({ commit }) {
-    try {
-      const response = await axios.get(
-        "http://localhost:8000/student/examination"
-      );
-      commit("SET_EXAMINATIONS", response.data);
-      return;
-    } catch (error) {
-      return error;
-    }
-  },
-
-  async enterToExamination(payload) {
-    try {
-      const response = await axios.post(
-        "http://localhost:8000/student/examination",
-        payload
-      );
-      return response.data.allowedExamination;
-    } catch (error) {
-      return error;
-    }
+  getAllExaminations({ commit }) {
+    return axios
+      .get(`/${endpoint}/invited`)
+      .then((response) => {
+        commit("SET_EXAMINATIONS", response.data.examinationOfToday);
+      })
+      .catch((error) => error);
   },
 };
 
-export const getters = {};
+export const getters = {
+  getByExaminationId: (state) => (examinationId) => {
+    return state.examinations.find(
+      (examination) => examination.examinationId === examinationId
+    );
+  },
+};
