@@ -3,9 +3,6 @@
     <v-row align="center" justify="center">
       <v-col cols="3">
         <v-card color="transparent" elevation="0">
-          <v-avatar size="100" tile>
-            <v-img src="./../assets/home/Lock.jpg"></v-img>
-          </v-avatar>
           <v-card-text>
             <v-row>
               <v-col>
