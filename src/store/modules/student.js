@@ -1,4 +1,3 @@
-import studentService from "../../api/services/student";
 import axios from "axios";
 
 export const namespaced = true;
@@ -24,24 +23,37 @@ export const mutations = {
 };
 
 export const actions = {
-  async login({ commit }, credentials) {
-    const res = await studentService.login(credentials);
-    commit("SET_STUDENT", res.data);
+  login({ commit }, credentials) {
+    return axios
+      .post("/login", credentials)
+      .then((response) => {
+        commit("SET_TOKEN", response.data.token);
+        commit("SET_STUDENT", response.data.student);
+      })
+      .catch((error) => error);
   },
   logout({ commit }) {
     commit("CLEAR_STUDENT");
   },
-  async updateMe({ commit }, credentials) {
-    const updatedMe = await studentService.updateMe(credentials);
-    commit("SET_STUDENT", updatedMe);
+  updateMe({ commit }, credentials) {
+    return axios
+      .patch("/me", credentials)
+      .then((response) => {
+        commit("SET_STUDENT", response.data.student);
+      })
+      .catch((error) => error);
   },
-  async updatePassword(newPassword) {
-    const updatedPassword = await studentService.updatePassword(newPassword);
-    return updatedPassword.data.status;
+  updatePassword(newPassword) {
+    return axios
+      .patch("/password", newPassword)
+      .then((response) => response)
+      .catch((error) => error);
   },
-  async forgotPassword(email) {
-    const message = await studentService.forgotPassword(email);
-    return message.data.status;
+  forgotPassword(email) {
+    return axios
+      .post("/forgot-password", email)
+      .then((response) => response)
+      .catch((error) => error);
   },
 };
 
