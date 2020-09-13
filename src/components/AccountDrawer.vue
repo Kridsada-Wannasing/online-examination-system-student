@@ -2,7 +2,7 @@
   <v-card height="670" class="rounded-xl">
     <v-navigation-drawer class="d-flex justify-center">
       <v-list>
-        <v-list-item class="mx-5 mt-3">
+        <v-list-item class="mx-4 mt-2">
           <v-list-item-avatar size="56">
             <img src="https://randomuser.me/api/portraits/women/81.jpg" />
           </v-list-item-avatar>
@@ -20,7 +20,7 @@
             </v-badge>
           </v-list-item-title>
         </v-list-item>
-        <v-list class="mx-5">
+        <v-list class="mx-4">
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>
@@ -73,11 +73,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
 export default {
-  computed: {
-    ...mapState("student", ["student"]),
+  data() {
+    return {
+      student: JSON.parse(localStorage.getItem("me")),
+    };
   },
 };
 </script>

@@ -24,6 +24,5 @@ import { navigationDrawerLists } from "@/mixins/navigationDrawerLists";
 export default {
   name: "navigation",
   mixins: [navigationDrawerLists],
-  data: () => ({}),
 };
 </script>

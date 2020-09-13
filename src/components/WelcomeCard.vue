@@ -10,7 +10,7 @@ export default {};
 #welcome {
   min-height: 40vh;
   background-image: linear-gradient(
-      226deg,
+      203deg,
       rgba(26, 115, 232, 0.52),
       rgba(127, 216, 88, 0.73)
     ),
