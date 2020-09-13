@@ -3,20 +3,22 @@ import axios from "axios";
 export const namespaced = true;
 
 export const state = {
+  token: "",
   student: {},
 };
 
 export const mutations = {
-  SET_STUDENT(state, student) {
-    state.student = student;
-    localStorage.setItem("me", JSON.stringify(student));
-    axios.defaults.headers.common["Authorization"] = `Bearer ${student.token}`;
+  SET_TOKEN(state, token) {
+    state.token = token;
+    localStorage.setItem("token", token);
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   },
-  UPDATE_STUDENT(state, student) {
+  SET_STUDENT(state, student) {
     state.student = student;
     localStorage.setItem("me", JSON.stringify(student));
   },
   CLEAR_STUDENT() {
+    localStorage.removeItem("token");
     localStorage.removeItem("me");
     location.reload();
   },
@@ -58,7 +60,7 @@ export const actions = {
 };
 
 export const getters = {
-  loggedIn(state) {
-    return !!state.student;
+  getMe(state) {
+    return state.student;
   },
 };
