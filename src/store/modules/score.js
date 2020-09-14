@@ -1,4 +1,6 @@
-import axios from "axios";
+import axios from "@/api/axios";
+
+const endpoint = "score";
 
 export const namespaced = true;
 
@@ -12,35 +14,43 @@ export const mutations = {
     state.scores = scores;
   },
   SET_SCORE(state, score) {
+    state.score = score;
+  },
+  ADD_SCORE(state, score) {
     state.scores.unshift(score);
   },
 };
 
 export const actions = {
-  async sendExam({ commit }, exam) {
-    const response = await axios.post(
-      "http://localhost:8000/student/score/:",
-      exam
-    );
-    await commit("SET_SCORE", response.data);
-    return response;
+  sendExam({ commit }, exam) {
+    return axios
+      .post(`/${endpoint}`, exam)
+      .then((response) => commit("ADD_SCORE", response.data))
+      .catch((error) => error);
   },
-  async getAllScores({ commit }) {
-    const response = await axios.get("http://localhost:8000/student/score");
-    commit("SET_SCORES", response.data);
-    return response.data;
+  getAllScores({ commit }) {
+    return axios
+      .get(`/${endpoint}`)
+      .then((response) => {
+        commit("SET_SCORES", response.data);
+        return response.data.newScore;
+      })
+      .catch((error) => error);
   },
-  async getScore({ commit }, scoreId) {
-    const response = await axios.get(
-      `http://localhost:8000/student/score/:${scoreId}`
-    );
-    commit("SET_SCORE", response.data);
-    return response.data;
+  getScore({ commit, getters }, scoreId) {
+    let target = getters.getByScoreId(scoreId);
+
+    if (target) return target;
+
+    return axios
+      .get(`/${endpoint}/:${scoreId}`)
+      .then((response) => commit("SET_SCORE", response.data))
+      .catch((error) => error);
   },
 };
 
 export const getters = {
-  loggedIn(state) {
-    return !!state.student;
+  getByScoreId: (state) => (scoreId) => {
+    return state.scores.find((score) => score.scoreId === scoreId);
   },
 };

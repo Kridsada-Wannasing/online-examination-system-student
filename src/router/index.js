@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Login from "../views/Login.vue";
 import Home from "../views/Home.vue";
 import EnterToExamination from "../views/EnterToExamination.vue";
+import Examination from "../views/Examination";
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,13 @@ const routes = [
     path: "/enter-to-examination/:examinationId",
     name: "EnterToExamination",
     component: EnterToExamination,
+    meta: { requiresAuth: true },
+    props: true,
+  },
+  {
+    path: "/examination/:examId",
+    name: "Examination",
+    component: Examination,
     meta: { requiresAuth: true },
     props: true,
   },

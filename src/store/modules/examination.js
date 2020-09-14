@@ -20,7 +20,7 @@ export const actions = {
     return axios
       .get(`/${endpoint}/invited`)
       .then((response) => {
-        commit("SET_EXAMINATIONS", response.data.examinationOfToday);
+        commit("SET_EXAMINATIONS", response.data.examinationsForInvitedStudent);
       })
       .catch((error) => error);
   },

@@ -1,4 +1,6 @@
-import axios from "axios";
+import axios from "@/api/axios";
+
+const endpoint = "question-exam";
 
 export const namespaced = true;
 
@@ -17,24 +19,25 @@ export const mutations = {
 };
 
 export const actions = {
-  async getAllQuestionsInThisExam({ commit }, examId) {
-    const response = await axios.get(
-      `http://localhost:8000/student/question/${examId}`
-    );
-    commit("SET_QUESTIONS", response.data);
-    return;
+  getAllQuestionsInThisExam({ commit }, examId) {
+    return axios
+      .get(`${endpoint}/${examId}`)
+      .then((response) => {
+        commit("SET_QUESTIONS", response.data.getQuestions);
+      })
+      .catch((error) => error);
   },
-  async getQuestion({ commit, getters }, { examId, questionId }) {
-    const target = getters(examId, questionId);
+  // getQuestion({ commit, getters }, { examId, questionId }) {
+  //   const target = getters(examId, questionId);
 
-    if (target) return target;
+  //   if (target) return target;
 
-    const response = await axios.get(
-      `http://localhost:8000/student/question/${examId}/${questionId}`
-    );
-    commit("SET_QUESTION", response.data);
-    return response.data;
-  },
+  //   const response = await axios.get(
+  //     `http://localhost:8000/student/question/${examId}/${questionId}`
+  //   );
+  //   commit("SET_QUESTION", response.data);
+  //   return response.data;
+  // },
 };
 
 export const getters = {};

@@ -1,4 +1,6 @@
-import axios from "axios";
+import axios from "@/api/axios";
+
+const endpoint = "exam-log";
 
 export const namespaced = true;
 
@@ -15,7 +17,8 @@ export const mutations = {
     state.answer = answer;
   },
   CHECKED_ANSWER(state, answer) {
-    state.answers.push(answer);
+    console.log(answer);
+    answer.map((el) => state.answers.push(el));
   },
   CHANGE_ANSWER(state, answer) {
     const index = state.answers.findIndex(
@@ -28,35 +31,29 @@ export const mutations = {
 };
 
 export const actions = {
-  async fetchAnswers({ commit }, { examId }) {
-    const response = await axios.get(
-      `http://localhost:8000/student/exam-log/${examId}`
-    );
-    commit("SET_ANSWERS", response.data);
-    return response.data;
+  fetchAnswers({ commit }, examId) {
+    return axios
+      .get(`/${endpoint}/${examId}`)
+      .then((response) => commit("SET_ANSWERS", response.data.allExamLog))
+      .catch((error) => error);
   },
-  async fetchAnswer({ commit }, { examId, questionId }) {
-    const response = await axios.get(
-      `http://localhost:8000/student/exam-log/${examId}/${questionId}`
-    );
-    commit("SET_ANSWERS", response.data);
-    return response.data;
+  fetchAnswer({ commit }, data) {
+    return axios
+      .get(`/${endpoint}/${data.examId}/${data.questionId}`)
+      .then((response) => commit("SET_ANSWER", response.data.examLog))
+      .catch((error) => error);
   },
-  async checkedAnswer({ commit }, { examId, questionId, answer }) {
-    const response = await axios.post(
-      `http://localhost:8000/student/exam-log/${examId}/${questionId}`,
-      answer
-    );
-    commit("SET_QUESTIONS", response.data);
-    return response.data;
+  checkedAnswer({ commit }, data) {
+    return axios
+      .post(`/${endpoint}/`, data)
+      .then((response) => commit("CHECKED_ANSWER", response.data.newExamlog))
+      .catch((error) => error);
   },
-  async changeAnswer({ commit, getters }, { examId, questionId, answer }) {
-    const response = await axios.patch(
-      `http://localhost:8000/student/exam-log/${examId}/${questionId}`,
-      answer
-    );
-    commit("SET_QUESTION", response.data);
-    return response.data;
+  changeAnswer({ commit }, data) {
+    return axios
+      .patch(`/${endpoint}/`, data)
+      .then((response) => commit("CHANGE_ANSWER", response.data))
+      .catch((error) => error);
   },
 };
 

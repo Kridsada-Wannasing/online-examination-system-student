@@ -43,6 +43,7 @@ export default {
   props: ["examinationId"],
   data() {
     return {
+      examId: null,
       password: "",
     };
   },
@@ -53,7 +54,24 @@ export default {
         password: this.password,
       };
 
-      enterToExamination(data).then((response) => console.log(response.data));
+      enterToExamination(data)
+        .then((response) => {
+          this.examId = response.data.examId;
+          console.log(this.examId);
+          this.$store
+            .dispatch(
+              "question/getAllQuestionsInThisExam",
+              response.data.examId
+            )
+            .then(() => {
+              this.$router.push({
+                name: "Examination",
+                params: { examId: this.examId },
+              });
+            })
+            .catch((error) => console.log(error));
+        })
+        .catch((error) => error);
     },
   },
 };
