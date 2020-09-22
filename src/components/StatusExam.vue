@@ -1,6 +1,10 @@
 <template>
-  <v-card min-height="670" color="transparent" class="text-center">
-    <v-img src="./../assets/examination/Logo1_white.svg" class="mx-8"> </v-img>
+  <v-card
+    min-height="670"
+    color="transparent"
+    class="d-flex flex-column text-center ma-8"
+  >
+    <v-img src="./../assets/examination/Logo1_white.svg"> </v-img>
 
     <div>
       <v-btn rounded color="success">Lobby</v-btn>

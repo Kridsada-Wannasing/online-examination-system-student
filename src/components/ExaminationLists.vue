@@ -10,7 +10,7 @@
         <v-col
           v-for="(examination, index) in examinations"
           :key="index"
-          cols="2"
+          cols="3"
           class="pa-4"
         >
           <ExaminationCard :examination="examination" />

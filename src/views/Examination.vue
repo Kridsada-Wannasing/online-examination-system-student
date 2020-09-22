@@ -8,16 +8,19 @@
         <v-card min-height="670" class="rounded-xl">
           <v-container>
             <Question
+              ref="setNullDataChildComponent"
               :question="questions[count]"
               :count="count + 1"
               :examId="examId"
-              @sendRadiosEventData="getRadiosEventData"
+              :countAnswerOfQuestion="countAnswerOfQuestion[count]"
+              @sendRadiosEvent="getRadiosData"
+              @sendCheckBoxEvent="getCheckBoxData"
             />
             <v-row>
               <v-col>
-                <v-btn v-if="isBack" @click="back" rounded outlined width="150">
+                <!-- <v-btn v-if="isBack" @click="back" rounded outlined width="150">
                   <v-icon left>mdi-arrow-left</v-icon>Back
-                </v-btn>
+                </v-btn> -->
               </v-col>
               <v-col>
                 <v-btn v-if="isNext" @click="next" rounded outlined width="150">
@@ -51,15 +54,11 @@ export default {
   data() {
     return {
       count: 0,
-      answers: [],
-      answer: {},
+      answer: null,
     };
   },
-  created() {
-    console.log(this.questions);
-  },
   computed: {
-    ...mapState("question", ["questions"]),
+    ...mapState("question", ["questions", "countAnswerOfQuestion"]),
     isNext() {
       return this.count === this.questions.length - 1 ? false : true;
     },
@@ -69,14 +68,10 @@ export default {
   },
   methods: {
     next() {
-      this.answers.push(this.answer);
-      console.log(this.answers);
-
       this.$store
-        .dispatch("answer/checkedAnswer", this.answers)
+        .dispatch("answer/checkedAnswer", this.answer)
         .then(() => {
-          this.answers.pop();
-          console.log(this.answers);
+          this.$refs.setNullDataChildComponent.setNullData();
           this.count++;
         })
         .catch((error) => console.log(error));
@@ -84,21 +79,26 @@ export default {
     back() {
       this.count--;
     },
-    getRadiosEventData(data) {
+    getRadiosData(data) {
+      this.answer = data;
+    },
+    getCheckBoxData(data) {
       this.answer = data;
     },
     sendExam() {
-      this.answers.push(this.answer);
-
       this.$store
-        .dispatch("answer/checkedAnswer", this.answers)
-        .then(() => {
-          this.answers.pop();
-          return this.$store
+        .dispatch("answer/checkedAnswer", this.answer)
+        .then(() =>
+          this.$store
             .dispatch("score/sendExam", { examId: this.examId })
-            .then((response) => alert(response))
-            .catch((error) => error);
-        })
+            .then((response) =>
+              this.$router.push({
+                name: "ReportScore",
+                params: { score: response.score },
+              })
+            )
+            .catch((error) => error)
+        )
         .catch((error) => console.log(error));
     },
   },

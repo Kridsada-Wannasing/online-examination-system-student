@@ -25,32 +25,37 @@ export const actions = {
   sendExam({ commit }, exam) {
     return axios
       .post(`/${endpoint}`, exam)
-      .then((response) => commit("ADD_SCORE", response.data))
+      .then((response) => {
+        commit("ADD_SCORE", response.data.newScore);
+        return response.data.newScore;
+      })
       .catch((error) => error);
   },
   getAllScores({ commit }) {
     return axios
       .get(`/${endpoint}`)
       .then((response) => {
-        commit("SET_SCORES", response.data);
-        return response.data.newScore;
+        commit("SET_SCORES", response.data.scores);
       })
       .catch((error) => error);
   },
-  getScore({ commit, getters }, scoreId) {
-    let target = getters.getByScoreId(scoreId);
+  getScore({ commit, getters }, examId) {
+    let target = getters.getByScoreId(examId);
 
     if (target) return target;
 
     return axios
-      .get(`/${endpoint}/:${scoreId}`)
-      .then((response) => commit("SET_SCORE", response.data))
+      .get(`/${endpoint}/:${examId}`)
+      .then((response) => {
+        commit("SET_SCORE", response.data.target);
+        return response.data.target;
+      })
       .catch((error) => error);
   },
 };
 
 export const getters = {
-  getByScoreId: (state) => (scoreId) => {
-    return state.scores.find((score) => score.scoreId === scoreId);
+  getByScoreId: (state) => (examId) => {
+    return state.scores.find((score) => score.examId === examId);
   },
 };

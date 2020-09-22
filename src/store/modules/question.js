@@ -7,6 +7,7 @@ export const namespaced = true;
 export const state = {
   questions: [],
   question: {},
+  countAnswerOfQuestion: [],
 };
 
 export const mutations = {
@@ -16,6 +17,9 @@ export const mutations = {
   SET_QUESTION(state, question) {
     state.question = question;
   },
+  SET_COUNT_OF_QUESTIONS(state, count) {
+    state.countAnswerOfQuestion = count;
+  },
 };
 
 export const actions = {
@@ -24,6 +28,7 @@ export const actions = {
       .get(`${endpoint}/${examId}`)
       .then((response) => {
         commit("SET_QUESTIONS", response.data.getQuestions);
+        commit("SET_COUNT_OF_QUESTIONS", response.data.countAnswer);
       })
       .catch((error) => error);
   },

@@ -4,6 +4,8 @@ import Login from "../views/Login.vue";
 import Home from "../views/Home.vue";
 import EnterToExamination from "../views/EnterToExamination.vue";
 import Examination from "../views/Examination";
+import Score from "../views/Score";
+import ReportScore from "../views/ReportScoreOfExam";
 
 Vue.use(VueRouter);
 
@@ -30,6 +32,20 @@ const routes = [
     path: "/examination/:examId",
     name: "Examination",
     component: Examination,
+    meta: { requiresAuth: true },
+    props: true,
+  },
+  {
+    path: "/score",
+    name: "Score",
+    component: Score,
+    meta: { requiresAuth: true },
+    props: true,
+  },
+  {
+    path: "/report-score/:score",
+    name: "ReportScore",
+    component: ReportScore,
     meta: { requiresAuth: true },
     props: true,
   },
