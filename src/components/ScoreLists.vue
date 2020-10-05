@@ -53,6 +53,11 @@ export default {
           value: "subject",
         },
         {
+          text: "รหัสวิชา",
+          align: "start",
+          value: "subjectId",
+        },
+        {
           text: "การสอบ",
           align: "start",
           value: "examType",

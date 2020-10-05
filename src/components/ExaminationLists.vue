@@ -13,7 +13,7 @@
           cols="3"
           class="pa-4"
         >
-          <ExaminationCard :examination="examination" />
+          <ExaminationCard :examination="examination" :index="index" />
         </v-col>
       </v-row>
     </v-container>

@@ -5,17 +5,19 @@
         <NavigationDrawer />
       </v-col>
       <v-col cols="8" class="pt-0">
-        <div class="content">
-          <v-row>
-            <v-col cols="12"><WelcomeCard /></v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12"><ExaminationLists /></v-col>
-          </v-row>
-        </div>
+        <router-view />
       </v-col>
       <v-col cols="2">
-        <AccountDrawer />
+        <AccountDrawer
+          v-if="!isShowNotification"
+          :isShowNotification="isShowNotification"
+          @showingNotification="isShowing"
+        />
+        <NotificationCard
+          v-else
+          :isShowNotification="isShowNotification"
+          @hiddingNotification="isShowing"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -24,16 +26,25 @@
 <script>
 import NavigationDrawer from "@/components/NavigationDrawer.vue";
 import AccountDrawer from "@/components/AccountDrawer.vue";
-import WelcomeCard from "@/components/WelcomeCard.vue";
-import ExaminationLists from "@/components/ExaminationLists.vue";
+import NotificationCard from "@/components/NotificationCard";
 
 export default {
   name: "Home",
   components: {
     NavigationDrawer,
     AccountDrawer,
-    WelcomeCard,
-    ExaminationLists,
+    NotificationCard,
+  },
+  data() {
+    return {
+      isShowNotification: false,
+    };
+  },
+  methods: {
+    isShowing(event) {
+      console.log(event);
+      this.isShowNotification = event;
+    },
   },
 };
 </script>

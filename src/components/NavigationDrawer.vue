@@ -9,7 +9,14 @@
         </v-list-item-content>
       </v-list-item>
       <v-list>
-        <v-list-item class="px-4" v-for="item in items" :key="item.title" link>
+        <v-list-item
+          class="px-4"
+          v-for="item in items"
+          :key="item.title"
+          router
+          link
+          :to="item.to"
+        >
           <v-icon class="px-4">{{ item.icon }}</v-icon>
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>

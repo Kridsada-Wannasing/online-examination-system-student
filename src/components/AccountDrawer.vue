@@ -16,7 +16,7 @@
               offset-x="11"
               offset-y="11"
             >
-              <v-icon>mdi-bell-outline</v-icon>
+              <v-icon @click="showNotification">mdi-bell-outline</v-icon>
             </v-badge>
           </v-list-item-title>
         </v-list-item>
@@ -69,10 +69,19 @@
 
 <script>
 export default {
+  props: {
+    isShowNotification: Boolean,
+  },
   data() {
     return {
       student: JSON.parse(localStorage.getItem("me")),
+      isShow: false,
     };
+  },
+  methods: {
+    showNotification() {
+      this.$emit("showingNotification", !this.isShowNotification);
+    },
   },
 };
 </script>

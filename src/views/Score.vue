@@ -1,39 +1,21 @@
 <template>
-  <v-container id="home" fluid>
+  <v-container id="score" fluid>
     <v-row class="mx-1">
-      <v-col cols="2">
-        <NavigationDrawer />
-      </v-col>
-      <v-col cols="8" class="pt-0">
-        <div class="content">
-          <v-row>
-            <v-col cols="12"><ScoreLists /></v-col>
-          </v-row>
-          <!-- <v-row>
-            <v-col cols="12"><ScoreBoard /></v-col>
-          </v-row> -->
-        </div>
-      </v-col>
-      <v-col cols="2">
-        <AccountDrawer />
-      </v-col>
+      <v-col><h3>ผลคะแนนสอบ</h3></v-col>
+    </v-row>
+    <v-row class="mx-1">
+      <v-col cols="12"><ScoreLists /></v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import NavigationDrawer from "@/components/NavigationDrawer.vue";
-import AccountDrawer from "@/components/AccountDrawer.vue";
 import ScoreLists from "@/components/ScoreLists.vue";
-// import ScoreBoard from "@/components/ScoreBoard.vue";
 
 export default {
   name: "Home",
   components: {
-    NavigationDrawer,
-    AccountDrawer,
     ScoreLists,
-    // ScoreBoard,
   },
 };
 </script>

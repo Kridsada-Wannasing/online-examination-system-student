@@ -2,19 +2,67 @@
   <v-card
     min-height="670"
     color="transparent"
-    class="d-flex flex-column text-center ma-8"
+    class="d-flex flex-column text-center px-8"
+    elevation="0"
   >
-    <v-img src="./../assets/examination/Logo1_white.svg"> </v-img>
+    <div>
+      <v-img src="./../assets/examination/Logo1_white.svg"> </v-img>
+    </div>
+
+    <div class="white--text text-xs">
+      <p style="font-size:2.5rem;">{{ time }}</p>
+    </div>
 
     <div>
-      <v-btn rounded color="success">Lobby</v-btn>
-      <v-btn rounded color="red">Leave examination</v-btn>
+      <!-- <v-btn rounded color="success">Lobby</v-btn> -->
+      <v-btn rounded class="red--text" @click="leave">Leave testing</v-btn>
     </div>
   </v-card>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      countDownDate: new Date("Oct 3, 2020 23:23:23").getTime(),
+      time: "",
+    };
+  },
+  mounted() {
+    let countDown = setInterval(() => {
+      let now = new Date().getTime();
+      let distance = this.countDownDate - now;
+
+      let hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      this.time = `${hours}:${minutes}:${seconds}`;
+
+      if (hours < 10 && hours >= 0) {
+        this.time = `0${hours}:${minutes}:${seconds}`;
+      }
+      if (minutes < 10 && minutes >= 0) {
+        this.time = `0${hours}:0${minutes}:${seconds}`;
+      }
+      if (seconds < 10 && seconds >= 0) {
+        this.time = `0${hours}:0${minutes}:0${seconds}`;
+      }
+
+      if (distance <= 0) {
+        this.time = "00:00:00";
+        clearInterval(countDown);
+      }
+    }, 1000);
+  },
+  methods: {
+    leave() {
+      this.$router.push({ name: "Home" });
+    },
+  },
+};
 </script>
 
 <style></style>

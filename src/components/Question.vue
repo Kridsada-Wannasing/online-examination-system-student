@@ -1,12 +1,14 @@
 <template>
   <v-row>
-    <v-col cols="6" v-if="false">
-      <v-img src="http://localhost:8000/static"></v-img>
-    </v-col>
+    <!-- <v-col cols="6" v-if="question.Image.path">
+      <v-img
+        :src="`http://localhost:8000/static/${question.Image.path}`"
+      ></v-img>
+    </v-col> -->
     <v-col>
       <v-row>
         <v-col>
-          <v-card-text>{{ count }}.{{ question.question }}</v-card-text>
+          <p style="font-size:4rem">{{ count }}.{{ question.question }}</p>
         </v-col>
       </v-row>
       <v-radio-group
@@ -57,7 +59,6 @@ export default {
         questionId: this.question.questionId,
         examId: this.examId,
       });
-      console.log(data);
       this.$emit("sendRadiosEvent", data);
     },
   },
@@ -68,7 +69,6 @@ export default {
     disabled() {
       if (this.checked.length >= this.countAnswerOfQuestion.countAnswer) {
         let data = this.mapObjectInArray(this.checked);
-        console.log(data);
         this.$emit("sendCheckBoxEvent", data);
         return true;
       } else return false;

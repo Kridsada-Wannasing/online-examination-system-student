@@ -6,6 +6,7 @@ import EnterToExamination from "../views/EnterToExamination.vue";
 import Examination from "../views/Examination";
 import Score from "../views/Score";
 import ReportScore from "../views/ReportScoreOfExam";
+import Welcome from "../views/Welcome";
 
 Vue.use(VueRouter);
 
@@ -16,10 +17,23 @@ const routes = [
     component: Login,
   },
   {
-    path: "/home",
-    name: "Home",
+    path: "/",
     component: Home,
     meta: { requiresAuth: true },
+    children: [
+      {
+        path: "welcome",
+        name: "Welcome",
+        component: Welcome,
+        props: true,
+      },
+      {
+        path: "score",
+        name: "Score",
+        component: Score,
+        props: true,
+      },
+    ],
   },
   {
     path: "/enter-to-examination/:examinationId",
@@ -29,23 +43,16 @@ const routes = [
     props: true,
   },
   {
-    path: "/examination/:examId",
-    name: "Examination",
-    component: Examination,
-    meta: { requiresAuth: true },
-    props: true,
-  },
-  {
-    path: "/score",
-    name: "Score",
-    component: Score,
-    meta: { requiresAuth: true },
-    props: true,
-  },
-  {
     path: "/report-score/:score",
     name: "ReportScore",
     component: ReportScore,
+    meta: { requiresAuth: true },
+    props: true,
+  },
+  {
+    path: "/examination/:examId",
+    name: "Examination",
+    component: Examination,
     meta: { requiresAuth: true },
     props: true,
   },
