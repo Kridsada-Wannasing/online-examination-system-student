@@ -2,7 +2,7 @@ import axios from "../axios";
 
 export const enterToExamination = (data) => {
   return axios
-    .post(`/examination/${data.examinationId}`, data)
+    .post(`/examination/${data.meetingId}`, data)
     .then((response) => response)
-    .catch((error) => error);
+    .catch((error) => Promise.reject(error));
 };

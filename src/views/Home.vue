@@ -13,11 +13,6 @@
           :isShowNotification="isShowNotification"
           @showingNotification="isShowing"
         />
-        <NotificationCard
-          v-else
-          :isShowNotification="isShowNotification"
-          @hiddingNotification="isShowing"
-        />
       </v-col>
     </v-row>
   </v-container>
@@ -26,14 +21,12 @@
 <script>
 import NavigationDrawer from "@/components/NavigationDrawer.vue";
 import AccountDrawer from "@/components/AccountDrawer.vue";
-import NotificationCard from "@/components/NotificationCard";
 
 export default {
   name: "Home",
   components: {
     NavigationDrawer,
     AccountDrawer,
-    NotificationCard,
   },
   data() {
     return {

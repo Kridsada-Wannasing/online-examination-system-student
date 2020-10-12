@@ -7,7 +7,6 @@ export const namespaced = true;
 export const state = {
   questions: [],
   question: {},
-  countAnswerOfQuestion: [],
 };
 
 export const mutations = {
@@ -17,32 +16,17 @@ export const mutations = {
   SET_QUESTION(state, question) {
     state.question = question;
   },
-  SET_COUNT_OF_QUESTIONS(state, count) {
-    state.countAnswerOfQuestion = count;
-  },
 };
 
 export const actions = {
-  getAllQuestionsInThisExam({ commit }, examId) {
+  getQuestionInExam({ commit }, examId) {
     return axios
       .get(`${endpoint}/${examId}`)
       .then((response) => {
         commit("SET_QUESTIONS", response.data.getQuestions);
-        commit("SET_COUNT_OF_QUESTIONS", response.data.countAnswer);
       })
-      .catch((error) => error);
+      .catch((error) => Promise.reject(error));
   },
-  // getQuestion({ commit, getters }, { examId, questionId }) {
-  //   const target = getters(examId, questionId);
-
-  //   if (target) return target;
-
-  //   const response = await axios.get(
-  //     `http://localhost:8000/student/question/${examId}/${questionId}`
-  //   );
-  //   commit("SET_QUESTION", response.data);
-  //   return response.data;
-  // },
 };
 
 export const getters = {};

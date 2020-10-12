@@ -1,7 +1,7 @@
 <template>
   <v-container id="score" fluid>
     <v-row class="mx-1">
-      <v-col><h3>ผลคะแนนสอบ</h3></v-col>
+      <v-col><h3 class="white--text">ผลคะแนนสอบ</h3></v-col>
     </v-row>
     <v-row class="mx-1">
       <v-col cols="12"><ScoreLists /></v-col>

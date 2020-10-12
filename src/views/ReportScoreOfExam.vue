@@ -20,7 +20,7 @@
           rounded
           width="150"
           color="white"
-          :to="{ name: 'Home' }"
+          :to="{ name: 'Welcome' }"
           ><v-icon left>mdi-home</v-icon>Home</v-btn
         >
       </v-col>

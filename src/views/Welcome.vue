@@ -4,18 +4,18 @@
       <v-col cols="12"><WelcomeCard /></v-col>
     </v-row>
     <v-row>
-      <v-col cols="12"><ExaminationLists /></v-col>
+      <v-col cols="12"><MeetingLists /></v-col>
     </v-row>
   </div>
 </template>
 
 <script>
 import WelcomeCard from "@/components/WelcomeCard.vue";
-import ExaminationLists from "@/components/ExaminationLists.vue";
+import MeetingLists from "@/components/MeetingLists.vue";
 export default {
   components: {
     WelcomeCard,
-    ExaminationLists,
+    MeetingLists,
   },
 };
 </script>

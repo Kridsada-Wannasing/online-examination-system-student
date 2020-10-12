@@ -54,7 +54,7 @@ export default {
   computed: {
     formatDate() {
       dayjs.extend(localizedFormat);
-      return dayjs(this.object.examDate).format("ll");
+      return dayjs(this.object.startExamDate).format("ll");
     },
     isDark() {
       return this.page == 1

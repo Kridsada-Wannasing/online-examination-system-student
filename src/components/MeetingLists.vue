@@ -1,5 +1,5 @@
 <template>
-  <v-card id="examination" class="rounded-xl">
+  <v-card id="meeting" class="rounded-xl">
     <v-container class="px-8">
       <v-row>
         <v-col>
@@ -8,12 +8,12 @@
       </v-row>
       <v-row>
         <v-col
-          v-for="(examination, index) in examinations"
+          v-for="(meeting, index) in meetings"
           :key="index"
           cols="3"
           class="pa-4"
         >
-          <ExaminationCard :examination="examination" :index="index" />
+          <MeetingCard :meeting="meeting" :index="index" />
         </v-col>
       </v-row>
     </v-container>
@@ -22,23 +22,25 @@
 
 <script>
 import { mapState } from "vuex";
-import ExaminationCard from "../components/ExaminationCard";
+import MeetingCard from "../components/MeetingCard";
 
 export default {
   components: {
-    ExaminationCard,
+    MeetingCard,
   },
   created() {
-    this.$store.dispatch("examination/getAllExaminations");
+    this.$store.dispatch("meeting/getAllMeetingInStudent");
+
+    console.log(this.meetings);
   },
   computed: {
-    ...mapState("examination", ["examinations"]),
+    ...mapState("meeting", ["meetings"]),
   },
 };
 </script>
 
 <style lang="scss">
-#examination {
+#meeting {
   min-height: 49vh;
 }
 </style>

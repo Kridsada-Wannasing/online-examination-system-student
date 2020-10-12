@@ -29,11 +29,11 @@ export const actions = {
         commit("ADD_SCORE", response.data.newScore);
         return response.data.newScore;
       })
-      .catch((error) => error);
+      .catch((error) => Promise.reject(error));
   },
-  getAllScores({ commit }) {
+  getScoresForStudent({ commit }) {
     return axios
-      .get(`/${endpoint}`)
+      .get(`/${endpoint}/student`)
       .then((response) => {
         commit("SET_SCORES", response.data.scores);
       })

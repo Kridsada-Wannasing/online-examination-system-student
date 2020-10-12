@@ -20,35 +20,66 @@
                 Welcome back! Please login to your account.
               </v-card-subtitle>
               <v-form v-model="valid" class="mx-5 pa-5">
-                <v-text-field
-                  v-model="Email"
-                  :rules="emailRules"
-                  label="Email"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  class="mt-3"
-                  v-model="Password"
-                  :rules="passwordRules"
-                  label="Password"
-                  required
-                ></v-text-field>
+                <div v-if="!showForgot" class="ma-0 pa-0">
+                  <v-text-field
+                    v-model="email"
+                    :rules="emailRules"
+                    label="Email"
+                    required
+                  ></v-text-field>
+                  <v-text-field
+                    class="mt-3"
+                    v-model="password"
+                    :rules="passwordRules"
+                    type="password"
+                    label="Password"
+                    required
+                  ></v-text-field>
+                </div>
+                <div v-else class="ma-0 pa-0">
+                  <v-text-field
+                    v-model="email"
+                    :rules="emailRules"
+                    label="Email"
+                    required
+                  ></v-text-field>
+                </div>
                 <div class="d-flex align-center justify-space-between my-5">
                   <v-checkbox
                     v-model="checkbox"
                     label="Remember me"
                   ></v-checkbox>
-                  <v-btn text class="form--login--btnforgot"
+                  <v-btn
+                    v-if="showForgot"
+                    text
+                    class="form--login--btnforgot"
+                    @click="showForgot = !showForgot"
+                    >Login</v-btn
+                  >
+                  <v-btn
+                    v-else
+                    text
+                    class="form--login--btnforgot"
+                    @click="showForgot = !showForgot"
                     >Forgot Password</v-btn
                   >
                 </div>
 
                 <v-btn
+                  v-if="!showForgot"
                   rounded
                   class="form--login--btn mt-10"
                   depressed
                   @click="login"
                   >Login</v-btn
+                >
+                <v-btn
+                  v-else
+                  rounded
+                  class="form--login--btn mt-10"
+                  depressed
+                  @click="forgotPassword"
+                  >Forgot Password</v-btn
                 >
               </v-form>
             </v-card>
@@ -60,16 +91,17 @@
 </template>
 
 <script>
+import { forgotPassword } from "../api/services/student";
 export default {
   name: "loginPage",
   data() {
     return {
       fluid: true,
       outlined: true,
-      Email: "",
-      Password: "",
+      email: "",
+      password: "",
       checkbox: false,
-
+      showForgot: false,
       // Validate Section
       valid: false,
       emailRules: [(v) => !!v || "Email is required"],
@@ -78,15 +110,28 @@ export default {
   },
   methods: {
     login() {
+      if (!this.email || !this.password) {
+        return alert("คุณยังไม่ได้ใส่อีเมลหรือรหัสผ่าน");
+      }
       this.$store
         .dispatch("student/login", {
-          email: this.Email,
-          password: this.Password,
+          email: this.email,
+          password: this.password,
         })
         .then(() => {
           this.$router.push({ name: "Welcome" });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => alert(err.response.data.message));
+    },
+    forgotPassword() {
+      if (!this.email) {
+        return alert("กรุณาใส่อีเมล");
+      }
+      forgotPassword({ email: this.email })
+        .then((response) =>
+          alert(`${response.data.status}: ${response.data.message}`)
+        )
+        .catch((error) => alert(`${error.response.data.message}`));
     },
   },
 };
@@ -122,7 +167,6 @@ export default {
       }
       &--btn {
         color: white;
-        width: 185px;
         height: 50px;
         background-color: #7fd858 !important;
         font-size: 18px;

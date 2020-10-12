@@ -1,16 +1,22 @@
-import { apiClient } from "../axios";
+import axios from "../axios";
 
-export default {
-  login(credentials) {
-    return apiClient.post("/login", credentials);
-  },
-  updateMe(credentials) {
-    return apiClient.patch("/updateMe", credentials);
-  },
-  updatePassword(newPassword) {
-    return apiClient.patch("/updatePassword", newPassword);
-  },
-  forgotPassword() {
-    return apiClient.post("/forgotPassword");
-  },
+export const forgotPassword = (email) => {
+  return axios
+    .post("/forgot-password", email)
+    .then((response) => Promise.resolve(response))
+    .catch((error) => Promise.reject(error));
+};
+
+export const updatePassword = (password) => {
+  return axios
+    .patch("/password", password)
+    .then((response) => Promise.resolve(response))
+    .catch((error) => Promise.reject(error));
+};
+
+export const updateMe = (profile) => {
+  return axios
+    .patch("/me", profile)
+    .then((response) => Promise.resolve(response))
+    .catch((error) => Promise.reject(error));
 };

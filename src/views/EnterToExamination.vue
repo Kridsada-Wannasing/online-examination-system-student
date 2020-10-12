@@ -3,14 +3,27 @@
     <v-row align="center" justify="center">
       <v-col cols="3">
         <v-card color="transparent" elevation="0">
-          <v-card-text>
+          <v-card-text class="text-center justify-center">
+            <div class="d-flex justify-center">
+              <div>
+                <v-img
+                  src="../assets/examination/Lock.svg"
+                  max-width="50"
+                ></v-img>
+              </div>
+            </div>
+            <v-row class="mt-5">
+              <v-col>
+                <p class="white--text">ใส่รหัสเพื่อเข้าห้องสอบ</p>
+              </v-col>
+            </v-row>
             <v-row>
               <v-col>
                 <v-text-field
                   id="password"
                   label="Password"
                   name="password"
-                  placeholder="Placeholder"
+                  placeholder="รหัสเข้าสอบ"
                   prepend-inner-icon="mdi-lock"
                   type="password"
                   v-model="password"
@@ -21,12 +34,24 @@
             </v-row>
             <v-row>
               <v-col cols="6">
-                <v-btn rounded class="success" color="white" @click="enter"
-                  >Login</v-btn
+                <v-btn
+                  min-width="150"
+                  rounded
+                  class="success"
+                  color="white"
+                  @click="enter"
+                  >เข้าห้องสอบ</v-btn
                 >
               </v-col>
               <v-col cols="6">
-                <v-btn rounded outlined class="red" color="white">Back</v-btn>
+                <v-btn
+                  min-width="150"
+                  rounded
+                  outlined
+                  color="red"
+                  :to="{ name: 'Welcome' }"
+                  >กลับ</v-btn
+                >
               </v-col>
             </v-row>
           </v-card-text>
@@ -38,41 +63,44 @@
 
 <script>
 import { enterToExamination } from "@/api/services/examination";
+import { mapState } from "vuex";
 
 export default {
-  props: ["examinationId"],
+  props: ["meetingId"],
   data() {
     return {
       examId: null,
       password: "",
     };
   },
+  computed: {
+    ...mapState("meeting", ["meeting"]),
+  },
   methods: {
     enter() {
       let data = {
-        examinationId: this.examinationId,
+        meetingId: this.meetingId,
         password: this.password,
       };
 
       enterToExamination(data)
         .then((response) => {
-          this.examId = response.data.examId;
-          console.log(this.examId);
-          this.$store
-            .dispatch(
-              "question/getAllQuestionsInThisExam",
-              response.data.examId
-            )
-            .then(() => {
-              this.$router.push({
-                name: "Examination",
-                params: { examId: this.examId },
-              });
-            })
-            .catch((error) => console.log(error));
+          this.$router.push({
+            name: "Examination",
+            params: {
+              meetingId: data.meetingId,
+              examId: response.data.examId,
+              subjectId: this.meeting.Subject.subjectId,
+            },
+          });
         })
-        .catch((error) => error);
+        .catch((error) =>
+          alert(`${error.response.data.status}: ${error.response.data.message}`)
+        );
     },
+  },
+  mounted() {
+    console.log(this.meeting);
   },
 };
 </script>

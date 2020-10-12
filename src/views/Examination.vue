@@ -2,37 +2,46 @@
   <v-container id="examination" fluid>
     <v-row class="mx-1">
       <v-col cols="2">
-        <StatusExam />
+        <StatusExam :isSent="isSent" @isTimeout="getIsTimeout" />
       </v-col>
       <v-col cols="10">
         <v-card min-height="670" class="rounded-xl">
-          <v-container>
+          <v-container class="pa-10">
             <Question
               ref="setNullDataChildComponent"
               :question="questions[count]"
               :count="count + 1"
               :examId="examId"
-              :countAnswerOfQuestion="countAnswerOfQuestion[count]"
               @sendRadiosEvent="getRadiosData"
               @sendCheckBoxEvent="getCheckBoxData"
+              @sendAnswersSubjective="getSubjectiveAnswers"
             />
-            <v-row>
-              <v-col>
-                <!-- <v-btn v-if="isBack" @click="back" rounded outlined width="150">
-                  <v-icon left>mdi-arrow-left</v-icon>Back
-                </v-btn> -->
-              </v-col>
-              <v-col>
-                <v-btn v-if="isNext" @click="next" rounded outlined width="150">
+            <div class="d-flex w-100 justify-end align-end">
+              <div>
+                <v-btn
+                  large
+                  v-if="isNext"
+                  @click="next"
+                  rounded
+                  outlined
+                  width="150"
+                >
                   <v-icon left>mdi-arrow-right</v-icon>
                   Next
                 </v-btn>
-                <v-btn v-else @click="sendExam" rounded outlined width="150">
+                <v-btn
+                  large
+                  v-else
+                  @click="sendExam"
+                  rounded
+                  outlined
+                  width="150"
+                >
                   <v-icon left>mdi-arrow-right</v-icon>
                   Finished
                 </v-btn>
-              </v-col>
-            </v-row>
+              </div>
+            </div>
           </v-container>
         </v-card>
       </v-col>
@@ -55,26 +64,33 @@ export default {
     return {
       count: 0,
       answer: null,
+      isSent: false,
     };
   },
   computed: {
-    ...mapState("question", ["questions", "countAnswerOfQuestion"]),
+    ...mapState("question", ["questions"]),
     isNext() {
       return this.count === this.questions.length - 1 ? false : true;
-    },
-    isBack() {
-      return this.count === 0 ? false : true;
     },
   },
   methods: {
     next() {
-      this.$store
-        .dispatch("answer/checkedAnswer", this.answer)
-        .then(() => {
-          this.$refs.setNullDataChildComponent.setNullData();
-          this.count++;
-        })
-        .catch((error) => console.log(error));
+      if (!this.answer) {
+        console.log(this.answer);
+        alert("กรุณาตอบคำถามให้ครบทุกข้อ");
+        this.answer = null;
+        console.log(this.answer);
+      } else {
+        this.$store
+          .dispatch("answer/checkedAnswer", this.answer)
+          .then(() => {
+            this.answer = null;
+            this.$refs.setNullDataChildComponent.setNullData();
+            this.count++;
+          })
+          .catch((error) => console.log(error));
+      }
+      // this.count++;
     },
     back() {
       this.count--;
@@ -85,21 +101,32 @@ export default {
     getCheckBoxData(data) {
       this.answer = data;
     },
+    getSubjectiveAnswers(data) {
+      this.answer = data;
+    },
     sendExam() {
+      this.isSent = true;
       this.$store
         .dispatch("answer/checkedAnswer", this.answer)
         .then(() =>
           this.$store
-            .dispatch("score/sendExam", { examId: this.examId })
+            .dispatch("score/sendExam", {
+              examId: this.$route.params.examId,
+              meetingId: this.$route.params.meetingId,
+              subjectId: this.$route.params.subjectId,
+            })
             .then((response) =>
               this.$router.push({
                 name: "ReportScore",
                 params: { score: response.score },
               })
             )
-            .catch((error) => error)
+            .catch((error) => Promise.reject(error))
         )
-        .catch((error) => console.log(error));
+        .catch((error) => alert(error));
+    },
+    getIsTimeout() {
+      this.isSent = false;
     },
   },
 };

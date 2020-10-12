@@ -3,16 +3,11 @@
     <v-container class="px-8">
       <v-row>
         <v-col>
-          ผลคะแนนสอบ
+          <p>ผลคะแนนสอบ</p>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <!-- v-for="(score, index) in scores"
-          :key="index"
-          cols="2"
-          class="pa-4" -->
-          <!-- <ScoreCard :score="score" /> -->
           <v-data-table
             :headers="headers"
             :items="scores"
@@ -26,14 +21,11 @@
 
 <script>
 import { mapState } from "vuex";
-// import ScoreCard from "../components/ScoreCard";
 
 export default {
-  components: {
-    // ScoreCard,
-  },
+  components: {},
   created() {
-    this.$store.dispatch("score/getAllScores");
+    this.$store.dispatch("score/getScoresForStudent");
     console.log(this.scores);
   },
   computed: {
@@ -50,36 +42,37 @@ export default {
         {
           text: "ชื่อวิชา",
           align: "start",
-          value: "subject",
+          value: "subjectName",
+          sortable: false,
         },
         {
           text: "รหัสวิชา",
-          align: "start",
+          sortable: false,
           value: "subjectId",
         },
         {
           text: "การสอบ",
-          align: "start",
+          sortable: false,
           value: "examType",
         },
         {
           text: "ภาคเรียน",
-          align: "start",
+          sortable: false,
           value: "term",
         },
         {
           text: "ปีการศึกษา",
-          align: "start",
+          sortable: false,
           value: "year",
         },
         {
           text: "คะแนนเต็ม",
-          align: "start",
+          sortable: false,
           value: "sum",
         },
         {
           text: "คะแนนที่ได้",
-          align: "start",
+          sortable: false,
           value: "score",
         },
       ],
