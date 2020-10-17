@@ -104,8 +104,6 @@ export default {
       showForgot: false,
       // Validate Section
       valid: false,
-      emailRules: [(v) => !!v || "Email is required"],
-      passwordRules: [(v) => !!v || "Password is required"],
     };
   },
   methods: {
