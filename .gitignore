@@ -2,6 +2,8 @@
 node_modules
 /dist
 
+.firebase
+404.html
 
 # local env files
 .env
