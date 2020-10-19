@@ -6,7 +6,7 @@
       </v-col>
       <v-col cols="10">
         <v-card min-height="670" class="rounded-xl">
-          <v-container class="pa-10">
+          <div class="pa-10" style="height:550px">
             <Question
               ref="setNullDataChildComponent"
               :question="questions[count]"
@@ -16,33 +16,31 @@
               @sendCheckBoxEvent="getCheckBoxData"
               @sendAnswersSubjective="getSubjectiveAnswers"
             />
-            <div class="d-flex w-100 justify-end align-end">
-              <div>
-                <v-btn
-                  large
-                  v-if="isNext"
-                  @click="next"
-                  rounded
-                  outlined
-                  width="150"
-                >
-                  <v-icon left>mdi-arrow-right</v-icon>
-                  Next
-                </v-btn>
-                <v-btn
-                  large
-                  v-else
-                  @click="sendExam"
-                  rounded
-                  outlined
-                  width="150"
-                >
-                  <v-icon left>mdi-arrow-right</v-icon>
-                  Finished
-                </v-btn>
-              </div>
-            </div>
-          </v-container>
+          </div>
+          <div class="d-flex justify-end mr-10">
+            <v-btn
+              x-large
+              v-if="isNext"
+              @click="next"
+              rounded
+              outlined
+              width="200"
+            >
+              <v-icon left>mdi-arrow-right</v-icon>
+              Next
+            </v-btn>
+            <v-btn
+              x-large
+              v-else
+              @click="sendExam"
+              rounded
+              outlined
+              width="200"
+            >
+              <v-icon left>mdi-arrow-right</v-icon>
+              Finished
+            </v-btn>
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -76,10 +74,8 @@ export default {
   methods: {
     next() {
       if (!this.answer) {
-        console.log(this.answer);
         alert("กรุณาตอบคำถามให้ครบทุกข้อ");
         this.answer = null;
-        console.log(this.answer);
       } else {
         this.$store
           .dispatch("answer/checkedAnswer", this.answer)
@@ -106,24 +102,25 @@ export default {
     },
     sendExam() {
       this.isSent = true;
-      this.$store
-        .dispatch("answer/checkedAnswer", this.answer)
-        .then(() =>
-          this.$store
-            .dispatch("score/sendExam", {
-              examId: this.$route.params.examId,
-              meetingId: this.$route.params.meetingId,
-              subjectId: this.$route.params.subjectId,
-            })
-            .then((response) =>
-              this.$router.push({
-                name: "ReportScore",
-                params: { score: response.score },
+      confirm("ยืนยันการส่งคำตอบ") &&
+        this.$store
+          .dispatch("answer/checkedAnswer", this.answer)
+          .then(() =>
+            this.$store
+              .dispatch("score/sendExam", {
+                examId: this.$route.params.examId,
+                meetingId: this.$route.params.meetingId,
+                subjectId: this.$route.params.subjectId,
               })
-            )
-            .catch((error) => Promise.reject(error))
-        )
-        .catch((error) => alert(error));
+              .then((response) =>
+                this.$router.push({
+                  name: "ReportScore",
+                  params: { score: response.score },
+                })
+              )
+              .catch((error) => Promise.reject(error))
+          )
+          .catch((error) => alert(error));
     },
     getIsTimeout() {
       this.isSent = false;

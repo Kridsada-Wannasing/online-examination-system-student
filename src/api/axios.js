@@ -1,6 +1,7 @@
 import axios from "axios";
 import NProgress from "nprogress";
 
+// axios.defaults.baseURL = "http://localhost:8000/student";
 axios.defaults.baseURL = process.env.VUE_APP_API_URL + "/student";
 
 axios.defaults.headers.common["Content-Type"] = "application/json";

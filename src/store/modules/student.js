@@ -33,7 +33,7 @@ export const actions = {
         commit("SET_STUDENT", response.data.student);
         return response.data;
       })
-      .catch((error) => error);
+      .catch((error) => Promise.reject(error));
   },
   logout({ commit }) {
     commit("CLEAR_STUDENT");

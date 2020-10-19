@@ -19,7 +19,7 @@
               <v-card-subtitle class="mt-4 form--login--subtitle">
                 Welcome back! Please login to your account.
               </v-card-subtitle>
-              <v-form v-model="valid" class="mx-5 pa-5">
+              <v-form v-model="valid" ref="form" class="mx-5 pa-5">
                 <div v-if="!showForgot" class="ma-0 pa-0">
                   <v-text-field
                     v-model="email"
@@ -66,6 +66,7 @@
                 </div>
 
                 <v-btn
+                  :disabled="!valid"
                   v-if="!showForgot"
                   rounded
                   class="form--login--btn mt-10"
@@ -74,6 +75,7 @@
                   >Login</v-btn
                 >
                 <v-btn
+                  :disabled="!valid"
                   v-else
                   rounded
                   class="form--login--btn mt-10"
@@ -100,17 +102,16 @@ export default {
       outlined: true,
       email: "",
       password: "",
+      emailRules: [(v) => !!v || "กรุณาใส่อีเมล"],
+      passwordRules: [(v) => !!v || "กรุณาใส่รหัสผ่าน"],
       checkbox: false,
       showForgot: false,
-      // Validate Section
-      valid: false,
+      valid: true,
     };
   },
   methods: {
     login() {
-      if (!this.email || !this.password) {
-        return alert("คุณยังไม่ได้ใส่อีเมลหรือรหัสผ่าน");
-      }
+      this.$refs.form.validate();
       this.$store
         .dispatch("student/login", {
           email: this.email,
