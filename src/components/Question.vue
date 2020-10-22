@@ -4,9 +4,6 @@
       <v-img
         :src="`${process.env.VUE_APP_API_URL}/static/${question.Image.path}`"
       ></v-img>
-      <!-- <v-img
-        :src="`http://localhost:8000/static/${question.Image.path}`"
-      ></v-img> -->
     </v-col>
     <v-col>
       <v-row>
