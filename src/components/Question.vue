@@ -3,6 +3,8 @@
     <v-col cols="6" v-if="showImage">
       <v-img
         :src="`${process.env.VUE_APP_API_URL}/static/${question.Image.path}`"
+        max-height="580"
+        max-width="500"
       ></v-img>
     </v-col>
     <v-col>
