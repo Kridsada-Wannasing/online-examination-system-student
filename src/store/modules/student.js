@@ -25,7 +25,6 @@ export const mutations = {
 
 export const actions = {
   login({ commit }, credentials) {
-    console.log(credentials);
     return axios
       .post("/login", credentials)
       .then((response) => {

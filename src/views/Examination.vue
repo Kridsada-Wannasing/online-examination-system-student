@@ -84,7 +84,7 @@ export default {
             this.$refs.setNullDataChildComponent.setNullData();
             this.count++;
           })
-          .catch((error) => console.log(error));
+          .catch((error) => alert(error));
       }
       // this.count++;
     },
@@ -101,6 +101,10 @@ export default {
       this.answer = data;
     },
     sendExam() {
+      if (!this.answer) {
+        this.answer = null;
+        return alert("กรุณาตอบคำถามให้ครบทุกข้อ");
+      }
       this.isSent = true;
       confirm("ยืนยันการส่งคำตอบ") &&
         this.$store
@@ -112,12 +116,7 @@ export default {
                 meetingId: this.$route.params.meetingId,
                 subjectId: this.$route.params.subjectId,
               })
-              .then((response) =>
-                this.$router.push({
-                  name: "ReportScore",
-                  params: { score: response.score },
-                })
-              )
+              .then(() => this.$router.push({ name: "ReportScore" }))
               .catch((error) => Promise.reject(error))
           )
           .catch((error) => alert(error));

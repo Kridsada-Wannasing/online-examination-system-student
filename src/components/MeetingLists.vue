@@ -30,8 +30,6 @@ export default {
   },
   created() {
     this.$store.dispatch("meeting/getAllMeetingInStudent");
-
-    console.log(this.meetings);
   },
   computed: {
     ...mapState("meeting", ["meetings"]),

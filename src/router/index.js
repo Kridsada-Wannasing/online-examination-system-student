@@ -74,7 +74,7 @@ const routes = [
     },
   },
   {
-    path: "/report-score/:score",
+    path: "/report-score",
     name: "ReportScore",
     component: ReportScore,
     meta: { requiresAuth: true },

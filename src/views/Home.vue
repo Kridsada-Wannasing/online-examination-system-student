@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     isShowing(event) {
-      console.log(event);
       this.isShowNotification = event;
     },
   },

@@ -17,7 +17,6 @@ export const mutations = {
     state.answer = answer;
   },
   CHECKED_ANSWER(state, answer) {
-    console.log(answer);
     answer.map((el) => state.answers.push(el));
   },
   CHANGE_ANSWER(state, answer) {

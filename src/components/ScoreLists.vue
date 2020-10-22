@@ -8,11 +8,11 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-data-table
-            :headers="headers"
-            :items="scores"
-            class="elevation-0"
-          ></v-data-table>
+          <v-data-table :headers="headers" :items="scores" class="elevation-0">
+            <template v-slot:item.score="{ item }">
+              {{ item.isCompleted == true ? item.score : "ยังไม่สมบูรณ์" }}
+            </template>
+          </v-data-table>
         </v-col>
       </v-row>
     </v-container>
@@ -26,16 +26,10 @@ export default {
   components: {},
   created() {
     this.$store.dispatch("score/getScoresForStudent");
-    console.log(this.scores);
   },
   computed: {
     ...mapState("score", ["scores"]),
   },
-  //   methods: {
-  //     getScoreData(data) {
-  //       this.score = data;
-  //     },
-  //   },
   data() {
     return {
       headers: [

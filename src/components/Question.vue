@@ -47,17 +47,15 @@
         ></v-checkbox>
       </div>
       <div v-else class="ma-0 pa-0" style="width:400px">
-        <v-text-field
+        <v-textarea
           class="mt-0 pt-0 ml-6"
-          dense
-          solo
+          cols="50"
+          outlined
           rounded
-          v-for="(subjective, index) in question.numberOfAnswer"
-          :key="index"
-          v-model="answers[index]"
+          v-model="answers[0]"
           @input="sendAnswersSubjective"
         >
-        </v-text-field>
+        </v-textarea>
       </div>
     </v-col>
   </v-row>
@@ -95,9 +93,9 @@ export default {
       return !!this.question.Image;
     },
     showNumberOfAnswers() {
-      return this.isObjective && this.isRadiosOrChecked
-        ? ""
-        : `(${this.question.numberOfAnswer} ข้อ)`;
+      return this.isObjective && !this.isRadiosOrChecked
+        ? `(ตอบ ${this.question.numberOfAnswer} ข้อ)`
+        : "";
     },
   },
   methods: {
@@ -114,8 +112,13 @@ export default {
       this.answers = [];
     },
     sendAnswersSubjective() {
-      if (this.answers.length >= this.question.numberOfAnswer) {
-        let data = this.mapObjectInArray(this.answers);
+      if (this.answers[0].length > 0) {
+        let data = this.answers.map((el) => ({
+          answer: el,
+          questionId: this.question.questionId,
+          examId: this.examId,
+          isChecking: false,
+        }));
         this.$emit("sendAnswersSubjective", data);
       }
     },

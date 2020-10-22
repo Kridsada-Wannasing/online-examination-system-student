@@ -37,7 +37,7 @@ export const actions = {
       commit("SET_MEETING", target);
       return target;
     }
-    console.log(target);
+
     return axios
       .get(`/${endpoint}/${meetingId}`)
       .then((response) => {

@@ -99,9 +99,6 @@ export default {
         );
     },
   },
-  mounted() {
-    console.log(this.meeting);
-  },
 };
 </script>
 

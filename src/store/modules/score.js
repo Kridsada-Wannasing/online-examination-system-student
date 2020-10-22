@@ -27,6 +27,7 @@ export const actions = {
       .post(`/${endpoint}`, exam)
       .then((response) => {
         commit("ADD_SCORE", response.data.newScore);
+        commit("SET_SCORE", response.data.newScore);
         return response.data.newScore;
       })
       .catch((error) => Promise.reject(error));
