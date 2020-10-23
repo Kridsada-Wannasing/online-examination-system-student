@@ -1,10 +1,9 @@
 <template>
   <v-row>
-    <v-col cols="6" v-if="showImage">
+    <v-col cols="6" v-if="showImage" class="pa-8">
       <v-img
         :src="`${process.env.VUE_APP_API_URL}/static/${question.Image.path}`"
-        max-height="580"
-        max-width="500"
+        max-height="500"
       ></v-img>
     </v-col>
     <v-col>
@@ -45,10 +44,10 @@
           :disabled="disabled && checked.indexOf(choice.order) === -1"
         ></v-checkbox>
       </div>
-      <div v-else class="ma-0 pa-0" style="width:400px">
+      <div v-else class="ma-0 pa-0">
         <v-textarea
-          class="mt-0 pt-0 ml-6"
-          cols="50"
+          class="mt-4 mx-6"
+          full-width
           outlined
           rounded
           v-model="answers[0]"
