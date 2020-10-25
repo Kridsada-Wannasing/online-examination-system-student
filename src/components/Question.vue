@@ -2,7 +2,9 @@
   <v-row>
     <v-col cols="6" v-if="showImage" class="pa-8">
       <v-img
-        :src="`${process.env.VUE_APP_API_URL}/static/${question.Image.path}`"
+        :src="
+          `https://edutest-backend.herokuapp.com/static/${question.Image.path}`
+        "
         max-height="530"
         max-width="500"
       ></v-img>
