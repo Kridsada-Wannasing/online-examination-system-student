@@ -1,6 +1,9 @@
 <template>
   <v-container id="reportScore" class="fill-height" fluid>
-    <v-row class="d-flex flex-column align-center" v-if="score.isCompleted">
+    <v-row
+      class="d-flex flex-column align-center"
+      v-if="score.isCompleted !== undefined || score.isCompleted"
+    >
       <v-col class="d-flex justify-center" cols="3">
         <v-img src="./../assets/examination/Logo_white.svg"></v-img>
       </v-col>
